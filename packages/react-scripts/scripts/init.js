@@ -91,6 +91,12 @@ module.exports = function(
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
+  // Copy over some of the devDependencies
+  appPackage.dependencies = appPackage.dependencies || {};
+  appPackage.devDependencies = appPackage.devDependencies || {};
+
+  const useTypeScript = appPackage.dependencies['typescript'] != null;
+
   // Setup the script rules
   appPackage.scripts = {
     start: 'crapp-scripts start',
@@ -98,10 +104,6 @@ module.exports = function(
     test: 'crapp-scripts test',
     eject: 'crapp-scripts eject',
   };
-
-  // Copy over some of the devDependencies
-  appPackage.dependencies = appPackage.dependencies || {};
-  appPackage.devDependencies = appPackage.dependencies || {};
 
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
@@ -146,8 +148,6 @@ module.exports = function(
       path.join(appPath, 'README.old.md')
     );
   }
-
-  const useTypeScript = appPackage.dependencies['typescript'] != null;
 
   // Copy the files for the user
   const templatePath = template
