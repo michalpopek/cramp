@@ -235,14 +235,19 @@ inquirer
     // Add Babel config
     console.log(`  Adding ${cyan('Babel')} preset`);
     appPackage.babel = {
-      presets: ['react-app'],
+      presets: [
+        [
+          'crapp',
+          { emotion: appPackage.dependencies['@emotion/core'] !== undefined },
+        ],
+      ],
     };
 
     // Add ESlint config
     if (!appPackage.eslintConfig) {
       console.log(`  Adding ${cyan('ESLint')} configuration`);
       appPackage.eslintConfig = {
-        extends: 'react-app',
+        extends: 'crapp',
       };
     }
 
