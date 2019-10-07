@@ -1,0 +1,26 @@
+{
+  "name": "eslint-config-crapp",
+  "version": "0.1.0",
+  "description": "ESLint config used by CRApp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michalpopek/crapp.git",
+    "directory": "packages/eslint-config-crapp"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michalpopek/crapp/issues"
+  },
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-simple-import-sort": "^4.0.0",
+    "prettier": "^1.18.2"
+  },
+  "peerDependencies": {
+    "eslint-config-react-app": "^5.0.2"
+  }
+}

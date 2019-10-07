@@ -52,7 +52,6 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$',
       '^.+\\.module\\.(css|sass|scss)$',
     ],
-    modulePaths: modules.additionalModulePaths || [],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
@@ -65,6 +64,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       'jest-watch-typeahead/filename',
       'jest-watch-typeahead/testname',
     ],
+    snapshotSerializers: ['jest-emotion'],
   };
   if (rootDir) {
     config.rootDir = rootDir;

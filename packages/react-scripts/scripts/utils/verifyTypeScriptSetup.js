@@ -128,7 +128,13 @@ function verifyTypeScriptSetup() {
       parsedValue: ts.JsxEmit.React,
       suggested: 'react',
     },
-    paths: { value: undefined, reason: 'aliased imports are not supported' },
+    baseUrl: { suggested: '.', reason: 'to handle the `@` alias' },
+    paths: {
+      suggested: {
+        '@/*': ['src/*'],
+      },
+      reason: 'to provide mapping for the `@` alias',
+    },
   };
 
   const formatDiagnosticHost = {

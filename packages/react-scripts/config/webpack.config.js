@@ -298,9 +298,7 @@ module.exports = function(webpackEnv) {
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
       // https://github.com/facebook/create-react-app/issues/253
-      modules: ['node_modules', paths.appNodeModules].concat(
-        modules.additionalModulePaths || []
-      ),
+      modules: ['node_modules', paths.appNodeModules],
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:
@@ -376,7 +374,7 @@ module.exports = function(webpackEnv) {
                     return eslintConfig;
                   } else {
                     return {
-                      extends: [require.resolve('eslint-config-react-app')],
+                      extends: [require.resolve('eslint-config-crapp')],
                     };
                   }
                 })(),
@@ -417,7 +415,7 @@ module.exports = function(webpackEnv) {
                 // @remove-on-eject-begin
                 babelrc: false,
                 configFile: false,
-                presets: [require.resolve('babel-preset-react-app')],
+                presets: [require.resolve('babel-preset-crapp')],
                 // Make sure we have a unique cache identifier, erring on the
                 // side of caution.
                 // We remove this when the user ejects because the default
@@ -429,7 +427,7 @@ module.exports = function(webpackEnv) {
                     : isEnvDevelopment && 'development',
                   [
                     'babel-plugin-named-asset-import',
-                    'babel-preset-react-app',
+                    'babel-preset-crapp',
                     'react-dev-utils',
                     'react-scripts',
                   ]

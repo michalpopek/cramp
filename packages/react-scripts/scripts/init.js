@@ -41,8 +41,7 @@ function isInMercurialRepository() {
   }
 }
 
-function tryGitInit(appPath) {
-  let didInit = false;
+function tryGitInit() {
   try {
     execSync('git --version', { stdio: 'ignore' });
     if (isInGitRepository() || isInMercurialRepository()) {
@@ -50,26 +49,30 @@ function tryGitInit(appPath) {
     }
 
     execSync('git init', { stdio: 'ignore' });
-    didInit = true;
 
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function tryGitInitialCommit(appPath) {
+  try {
     execSync('git add -A', { stdio: 'ignore' });
-    execSync('git commit -m "Initial commit from Create React App"', {
+    execSync('git commit -m "Initial commit"', {
       stdio: 'ignore',
     });
     return true;
   } catch (e) {
-    if (didInit) {
-      // If we successfully initialized but couldn't commit,
-      // maybe the commit author config is not set.
-      // In the future, we might supply our own committer
-      // like Ember CLI does, but for now, let's just
-      // remove the Git files to avoid a half-done state.
-      try {
-        // unlinkSync() doesn't work on directories.
-        fs.removeSync(path.join(appPath, '.git'));
-      } catch (removeErr) {
-        // Ignore.
-      }
+    // If we couldn't commit, maybe the commit author config is not set.
+    // In the future, we might supply our own committer
+    // like Ember CLI does, but for now, let's just
+    // remove the Git files to avoid a half-done state.
+    try {
+      // unlinkSync() doesn't work on directories.
+      fs.removeSync(path.join(appPath, '.git'));
+    } catch (removeErr) {
+      // Ignore.
     }
     return false;
   }
@@ -88,26 +91,48 @@ module.exports = function(
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
-  // Copy over some of the devDependencies
-  appPackage.dependencies = appPackage.dependencies || {};
-
-  const useTypeScript = appPackage.dependencies['typescript'] != null;
-
   // Setup the script rules
   appPackage.scripts = {
-    start: 'react-scripts start',
-    build: 'react-scripts build',
-    test: 'react-scripts test',
-    eject: 'react-scripts eject',
+    start: 'crapp-scripts start',
+    build: 'crapp-scripts build',
+    test: 'crapp-scripts test',
+    eject: 'crapp-scripts eject',
   };
 
-  // Setup the eslint config
-  appPackage.eslintConfig = {
-    extends: 'react-app',
-  };
+  // Copy over some of the devDependencies
+  appPackage.dependencies = appPackage.dependencies || {};
+  appPackage.devDependencies = appPackage.dependencies || {};
 
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
+
+  // Setup the eslint config
+  appPackage.eslintConfig = {
+    extends: 'crapp',
+  };
+
+  // Setup Husky
+  appPackage.husky = {
+    hooks: {
+      'pre-commit': 'lint-staged',
+    },
+  };
+
+  // Setup lint-staged
+  appPackage['lint-staged'] = {
+    'src/**/*.{js,jsx,ts,tsx}': ['eslint --fix', 'git add'],
+  };
+
+  // Setup prettier
+  appPackage.prettier = {
+    semi: false,
+    tabWidth: 2,
+    useTabs: false,
+    printWidth: 80,
+    singleQuote: true,
+    trailingComma: 'es5',
+    endOfLine: 'lf',
+  };
 
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
@@ -121,6 +146,8 @@ module.exports = function(
       path.join(appPath, 'README.old.md')
     );
   }
+
+  const useTypeScript = appPackage.dependencies['typescript'] != null;
 
   // Copy the files for the user
   const templatePath = template
@@ -217,9 +244,33 @@ module.exports = function(
     verifyTypeScriptSetup();
   }
 
-  if (tryGitInit(appPath)) {
+  if (tryGitInit()) {
     console.log();
-    console.log('Initialized a git repository.');
+    console.log('Installing Husky and lint-staged.');
+
+    let command;
+    let args = [];
+
+    if (useYarn) {
+      command = 'yarnpkg';
+      args.push('add', '--dev');
+    } else {
+      command = 'npm';
+      args.push('install', '--save-dev');
+    }
+
+    const proc = spawn.sync(command, args.concat(['husky', 'lint-staged']), {
+      stdio: 'inherit',
+    });
+
+    if (proc.status !== 0) {
+      console.warn('Installing Husky and lint-staged failed, skipping');
+    }
+
+    if (tryGitInitialCommit(appPath)) {
+      console.log();
+      console.log('Initialized a git repository.');
+    }
   }
 
   // Display the most elegant way to cd.
