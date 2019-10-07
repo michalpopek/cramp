@@ -15,9 +15,7 @@
     "index.js"
   ],
   "dependencies": {
-    "@emotion/babel-preset-css-prop": "^10.0.17"
-  },
-  "peerDependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.17",
     "babel-preset-react-app": "^9.0.1"
   }
 }
