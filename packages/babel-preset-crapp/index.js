@@ -14,11 +14,11 @@ module.exports = function(api, opts) {
 
   return {
     presets: [
+      require('babel-preset-react-app'),
       useEmotion && [
         require('@emotion/babel-preset-css-prop').default,
         { sourceMaps: isEnvDevelopment },
       ],
-      require('babel-preset-react-app'),
     ].filter(Boolean),
   };
 };
