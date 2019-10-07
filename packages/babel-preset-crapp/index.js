@@ -6,17 +6,19 @@
  */
 'use strict';
 
-module.exports = function() {
+module.exports = function(api, opts) {
   const env = process.env.BABEL_ENV || process.env.NODE_ENV;
   const isEnvDevelopment = env === 'development';
 
+  const useEmotion = opts.emotion;
+
   return {
     presets: [
-      [
+      useEmotion && [
         require('@emotion/babel-preset-css-prop').default,
         { sourceMaps: isEnvDevelopment },
       ],
-      require('babel-preset-react-app').default,
-    ],
+      require('babel-preset-react-app'),
+    ].filter(Boolean),
   };
 };
