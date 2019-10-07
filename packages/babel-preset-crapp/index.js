@@ -12,7 +12,11 @@ module.exports = function() {
 
   return {
     presets: [
-      ['@emotion/babel-preset-css-prop', { sourceMaps: isEnvDevelopment }],
+      [
+        require('@emotion/babel-preset-css-prop').default,
+        { sourceMaps: isEnvDevelopment },
+      ],
+      require('babel-preset-react-app').default,
     ],
   };
 };
