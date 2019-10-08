@@ -1,5 +1,5 @@
 {
-  "name": "crapp",
+  "name": "cramp",
   "version": "0.1.0",
   "keywords": [
     "react"
@@ -7,7 +7,7 @@
   "description": "Create React apps with no build configuration.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/michalpopek/crapp.git",
+    "url": "https://github.com/michalpopek/cramp.git",
     "directory": "packages/create-react-app"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
     "node": ">=8"
   },
   "bugs": {
-    "url": "https://github.com/michalpopek/crapp/issues"
+    "url": "https://github.com/michalpopek/cramp/issues"
   },
   "files": [
     "index.js",
@@ -23,8 +23,7 @@
     "yarn.lock.cached"
   ],
   "bin": {
-    "create-react-app": "./index.js",
-    "crapp": "./index.js"
+    "cramp": "./index.js"
   },
   "dependencies": {
     "chalk": "2.4.2",

@@ -75,7 +75,7 @@ const program = new commander.Command(packageJson.name)
   .option(
     '--scripts-version <alternative-package>',
     'use a non-standard version of react-scripts',
-    'crapp-scripts'
+    'cramp-scripts'
   )
   .option('--use-npm')
   .option('--use-pnp')

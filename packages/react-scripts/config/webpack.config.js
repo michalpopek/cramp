@@ -376,7 +376,7 @@ module.exports = function(webpackEnv) {
                     return eslintConfig;
                   } else {
                     return {
-                      extends: [require.resolve('eslint-config-crapp')],
+                      extends: [require.resolve('eslint-config-cramp')],
                     };
                   }
                 })(),
@@ -419,7 +419,7 @@ module.exports = function(webpackEnv) {
                 configFile: false,
                 presets: [
                   [
-                    require.resolve('babel-preset-crapp'),
+                    require.resolve('babel-preset-cramp'),
                     { emotion: useEmotion },
                   ],
                 ],
@@ -434,7 +434,7 @@ module.exports = function(webpackEnv) {
                     : isEnvDevelopment && 'development',
                   [
                     'babel-plugin-named-asset-import',
-                    'babel-preset-crapp',
+                    'babel-preset-cramp',
                     'react-dev-utils',
                     'react-scripts',
                   ]

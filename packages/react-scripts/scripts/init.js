@@ -99,10 +99,10 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
-    start: 'crapp-scripts start',
-    build: 'crapp-scripts build',
-    test: 'crapp-scripts test',
-    eject: 'crapp-scripts eject',
+    start: 'cramp-scripts start',
+    build: 'cramp-scripts build',
+    test: 'cramp-scripts test',
+    eject: 'cramp-scripts eject',
   };
 
   // Setup the browsers list
@@ -110,7 +110,7 @@ module.exports = function(
 
   // Setup the eslint config
   appPackage.eslintConfig = {
-    extends: 'crapp',
+    extends: 'cramp',
   };
 
   // Setup Husky

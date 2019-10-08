@@ -10,7 +10,7 @@
 const babelJest = require('babel-jest');
 
 module.exports = babelJest.createTransformer({
-  presets: [require.resolve('babel-preset-crapp')],
+  presets: [require.resolve('babel-preset-cramp')],
   babelrc: false,
   configFile: false,
 });

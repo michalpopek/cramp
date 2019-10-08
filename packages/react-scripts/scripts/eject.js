@@ -237,7 +237,7 @@ inquirer
     appPackage.babel = {
       presets: [
         [
-          'crapp',
+          'cramp',
           { emotion: appPackage.dependencies['@emotion/core'] !== undefined },
         ],
       ],
@@ -247,7 +247,7 @@ inquirer
     if (!appPackage.eslintConfig) {
       console.log(`  Adding ${cyan('ESLint')} configuration`);
       appPackage.eslintConfig = {
-        extends: 'crapp',
+        extends: 'cramp',
       };
     }
 

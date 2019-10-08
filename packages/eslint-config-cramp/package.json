@@ -1,15 +1,15 @@
 {
-  "name": "eslint-config-crapp",
+  "name": "eslint-config-cramp",
   "version": "0.1.0",
-  "description": "ESLint config used by CRApp",
+  "description": "ESLint config used by Cramp",
   "repository": {
     "type": "git",
-    "url": "https://github.com/michalpopek/crapp.git",
-    "directory": "packages/eslint-config-crapp"
+    "url": "https://github.com/michalpopek/cramp.git",
+    "directory": "packages/eslint-config-cramp"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/michalpopek/crapp/issues"
+    "url": "https://github.com/michalpopek/cramp/issues"
   },
   "files": [
     "index.js"
