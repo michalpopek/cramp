@@ -1,6 +1,6 @@
 {
   "name": "cramp-scripts",
-  "version": "0.1.0",
+  "version": "0.1.1-beta.0",
   "description": "Configuration and scripts for Cramp.",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-named-asset-import": "^0.3.4",
-    "babel-preset-cramp": "0.1.0",
+    "babel-preset-cramp": "^0.1.1-beta.0",
     "babel-preset-react-app": "^9.0.2",
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
@@ -44,7 +44,7 @@
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^6.1.0",
-    "eslint-config-cramp": "0.1.0",
+    "eslint-config-cramp": "^0.1.1-beta.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-loader": "3.0.2",
     "eslint-plugin-flowtype": "3.13.0",
