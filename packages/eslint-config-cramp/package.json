@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-cramp",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1",
   "description": "ESLint config used by Cramp",
   "repository": {
     "type": "git",
