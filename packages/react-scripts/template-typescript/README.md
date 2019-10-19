@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [cramp](https://github.com/michalpopek/cramp) - a customized version of [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 

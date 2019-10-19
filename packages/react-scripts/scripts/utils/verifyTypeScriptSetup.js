@@ -123,12 +123,20 @@ function verifyTypeScriptSetup() {
     },
     resolveJsonModule: { value: true, reason: 'to match webpack loader' },
     isolatedModules: { value: true, reason: 'implementation limitation' },
+    importHelpers: { value: true },
     noEmit: { value: true },
+    experimentalDecorators: { suggested: true },
     jsx: {
       parsedValue: ts.JsxEmit.React,
       suggested: 'react',
     },
-    paths: { value: undefined, reason: 'aliased imports are not supported' },
+    baseUrl: { suggested: '.', reason: 'to handle the `@` alias' },
+    paths: {
+      suggested: {
+        '@/*': ['src/*'],
+      },
+      reason: 'to provide mapping for the `@` alias',
+    },
   };
 
   const formatDiagnosticHost = {

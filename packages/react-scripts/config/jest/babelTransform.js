@@ -8,9 +8,13 @@
 'use strict';
 
 const babelJest = require('babel-jest');
+const paths = require('../paths');
+const appPackageJson = require(paths.appPackageJson);
+
+const useEmotion = appPackageJson.dependencies['@emotion/core'] !== undefined;
 
 module.exports = babelJest.createTransformer({
-  presets: [require.resolve('babel-preset-react-app')],
+  presets: [[require.resolve('babel-preset-cramp'), { emotion: useEmotion }]],
   babelrc: false,
   configFile: false,
 });

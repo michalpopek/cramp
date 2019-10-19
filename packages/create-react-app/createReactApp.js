@@ -74,11 +74,16 @@ const program = new commander.Command(packageJson.name)
   .option('--info', 'print environment debug info')
   .option(
     '--scripts-version <alternative-package>',
-    'use a non-standard version of react-scripts'
+    'use a non-standard version of react-scripts',
+    'cramp-scripts'
   )
   .option('--use-npm')
   .option('--use-pnp')
-  .option('--typescript')
+  .option('--javascript')
+  .option('--emotion')
+  .option('--mobx')
+  .option('--firebase')
+  .option('--reach-router')
   .allowUnknownOption()
   .on('--help', () => {
     console.log(`    Only ${chalk.green('<project-directory>')} is required.`);
@@ -174,14 +179,22 @@ const hiddenProgram = new commander.Command()
   )
   .parse(process.argv);
 
+const additionalTooling = {
+  emotion: program.emotion,
+  mobx: program.mobx,
+  firebase: program.firebase,
+  reachRouter: program.reachRouter,
+};
+
 createApp(
   projectName,
   program.verbose,
   program.scriptsVersion,
   program.useNpm,
   program.usePnp,
-  program.typescript,
-  hiddenProgram.internalTestingTemplate
+  program.javascript,
+  hiddenProgram.internalTestingTemplate,
+  additionalTooling
 );
 
 function createApp(
@@ -190,11 +203,13 @@ function createApp(
   version,
   useNpm,
   usePnp,
-  useTypescript,
-  template
+  useJavascript,
+  template,
+  additionalTooling
 ) {
   const root = path.resolve(name);
   const appName = path.basename(root);
+  const useTypescript = !useJavascript;
 
   checkAppName(appName);
   fs.ensureDirSync(name);
@@ -225,9 +240,7 @@ function createApp(
   if (!semver.satisfies(process.version, '>=8.10.0')) {
     console.log(
       chalk.yellow(
-        `You are using Node ${
-          process.version
-        } so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
+        `You are using Node ${process.version} so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
           `Please update to Node 8.10 or higher for a better, fully supported experience.\n`
       )
     );
@@ -241,9 +254,7 @@ function createApp(
       if (npmInfo.npmVersion) {
         console.log(
           chalk.yellow(
-            `You are using npm ${
-              npmInfo.npmVersion
-            } so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
+            `You are using npm ${npmInfo.npmVersion} so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
               `Please update to npm 5 or higher for a better, fully supported experience.\n`
           )
         );
@@ -257,9 +268,7 @@ function createApp(
       if (yarnInfo.yarnVersion) {
         console.log(
           chalk.yellow(
-            `You are using Yarn ${
-              yarnInfo.yarnVersion
-            } together with the --use-pnp flag, but Plug'n'Play is only supported starting from the 1.12 release.\n\n` +
+            `You are using Yarn ${yarnInfo.yarnVersion} together with the --use-pnp flag, but Plug'n'Play is only supported starting from the 1.12 release.\n\n` +
               `Please update to Yarn 1.12 or higher for a better, fully supported experience.\n`
           )
         );
@@ -296,7 +305,8 @@ function createApp(
     template,
     useYarn,
     usePnp,
-    useTypescript
+    useTypescript,
+    additionalTooling
   );
 }
 
@@ -380,7 +390,8 @@ function run(
   template,
   useYarn,
   usePnp,
-  useTypescript
+  useTypescript,
+  additionalTooling
 ) {
   getInstallPackage(version, originalDirectory).then(packageToInstall => {
     const allDependencies = ['react', 'react-dom', packageToInstall];
@@ -392,8 +403,28 @@ function run(
         '@types/react-dom',
         // TODO: get version of Jest being used instead of installing latest
         '@types/jest',
-        'typescript'
+        'typescript',
+        'tslib'
       );
+    }
+
+    if (additionalTooling.emotion) {
+      allDependencies.push('@emotion/core');
+    }
+
+    if (additionalTooling.mobx) {
+      allDependencies.push('mobx', 'mobx-react-lite');
+    }
+
+    if (additionalTooling.firebase) {
+      allDependencies.push('firebase');
+    }
+
+    if (additionalTooling.reachRouter) {
+      allDependencies.push('@reach/router');
+      if (useTypescript) {
+        allDependencies.push('@types/reach__router');
+      }
     }
 
     console.log('Installing packages. This might take a couple of minutes.');
@@ -806,6 +837,7 @@ function isSafeToCreateProjectIn(root, name) {
     '.travis.yml',
     '.gitlab-ci.yml',
     '.gitattributes',
+    '.nvmrc',
   ];
   console.log();
 
